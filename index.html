@@ -8,9 +8,356 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="Css/style.css">
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <style>
+        /* Confirmation Modal Styles - COMPACT VERSION */
+        .confirmation-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            max-width: 450px;
+            width: 90%;
+            max-height: 85vh;
+            overflow-y: auto;
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .modal-header {
+            background: linear-gradient(to right, #0077be, #00b4d8);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            position: relative;
+        }
+
+        .modal-header h2 {
+            font-size: 22px;
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .modal-header p {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        .modal-body {
+            padding: 20px;
+        }
+
+        .guest-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .guest-avatar {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(to right, #0077be, #00b4d8);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 20px;
+            flex-shrink: 0;
+        }
+
+        .guest-details h3 {
+            font-size: 18px;
+            margin-bottom: 3px;
+            color: #0077be;
+        }
+
+        .guest-details p {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .booking-details {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+
+        .booking-details h3 {
+            color: #0077be;
+            margin-bottom: 10px;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            padding-bottom: 8px;
+            border-bottom: 1px dashed #ddd;
+            font-size: 14px;
+        }
+
+        .detail-row:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .detail-label {
+            font-weight: 600;
+            color: #555;
+        }
+
+        .detail-value {
+            color: #0077be;
+            font-weight: 600;
+            text-align: right;
+        }
+
+        .payment-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: #f0f8ff;
+            border-radius: 10px;
+            padding: 12px;
+            margin-bottom: 15px;
+        }
+
+        .payment-icon {
+            width: 40px;
+            height: 40px;
+            background: white;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            color: #0077be;
+            box-shadow: 0 2px 5px rgba(0, 119, 190, 0.1);
+            flex-shrink: 0;
+        }
+
+        .payment-details h4 {
+            color: #0077be;
+            margin-bottom: 3px;
+            font-size: 15px;
+        }
+
+        .payment-details p {
+            color: #666;
+            font-size: 12px;
+        }
+
+        .confirmation-message {
+            text-align: center;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            font-size: 14px;
+            line-height: 1.5;
+            color: #555;
+        }
+
+        .confirmation-message i {
+            color: #00b4d8;
+            margin-right: 5px;
+            font-size: 12px;
+        }
+
+        .confirmation-message p {
+            margin-bottom: 8px;
+        }
+
+        .confirmation-message p:last-child {
+            margin-bottom: 0;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .modal-btn {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(to right, #0077be, #00b4d8);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 10px rgba(0, 119, 190, 0.3);
+        }
+
+        .btn-secondary {
+            background: #f8f9fa;
+            color: #555;
+            border: 1px solid #ddd;
+        }
+
+        .btn-secondary:hover {
+            background: #e9ecef;
+        }
+
+        .resort-logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 12px;
+            color: #0077be;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        /* Payment Section Styles */
+        .payment-section {
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 2px solid #e2e8f0;
+        }
+
+        .book-room-btn {
+            background: #0077be;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 14px;
+        }
+
+        .book-room-btn:hover {
+            background: #005a8c;
+            transform: translateY(-2px);
+        }
+
+        .payment-methods {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .payment-method {
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 1rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        .payment-method:hover {
+            border-color: #0077be;
+            transform: translateY(-2px);
+        }
+
+        .payment-method.active {
+            border-color: #0077be;
+            background: #f0f8ff;
+        }
+
+        .payment-icon img {
+            width: 35px;
+            height: 35px;
+            object-fit: contain;
+        }
+
+        .payment-name {
+            font-weight: 600;
+            margin: 0.5rem 0;
+            color: #333;
+            font-size: 14px;
+        }
+
+        .payment-description {
+            font-size: 0.8rem;
+            color: #666;
+        }
+
+        @media (max-width: 480px) {
+            .modal-content {
+                width: 95%;
+                max-height: 90vh;
+            }
+
+            .modal-actions {
+                flex-direction: column;
+            }
+
+            .detail-row {
+                flex-direction: column;
+                gap: 3px;
+                text-align: center;
+            }
+
+            .guest-info {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .payment-methods {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 </head>
 
 <body>
+    <!-- Your existing header, sections, and footer remain the same -->
     <!-- Header -->
     <header class="header">
         <div class="header-content">
@@ -74,7 +421,7 @@
                             <div class="price">₱3,500</div>
                             <div class="price-label">per night</div>
                         </div>
-                        <button class="book-room-btn">Book Now</button>
+                        <button class="book-room-btn" data-room="deluxe">Book Now</button>
                     </div>
                 </div>
             </div>
@@ -99,7 +446,7 @@
                             <div class="price">₱6,500</div>
                             <div class="price-label">per night</div>
                         </div>
-                        <button class="book-room-btn">Book Now</button>
+                        <button class="book-room-btn" data-room="premium">Book Now</button>
                     </div>
                 </div>
             </div>
@@ -123,7 +470,7 @@
                             <div class="price">₱12,000</div>
                             <div class="price-label">per night</div>
                         </div>
-                        <button class="book-room-btn">Book Now</button>
+                        <button class="book-room-btn" data-room="villa">Book Now</button>
                     </div>
                 </div>
             </div>
@@ -213,7 +560,6 @@
     </section>
 
     <!-- Location -->
-    <!-- Location -->
     <section class="section" id="location">
         <h2 class="section-title">Find Us in Paradise</h2>
         <p class="section-subtitle">Located in the beautiful coastal road of Lianga, Surigao del Sur</p>
@@ -232,6 +578,7 @@
             </div>
         </div>
     </section>
+
     <section class="social-section">
         <h2 class="section-title" style="color: white;">Connect With Us</h2>
         <a href="https://www.facebook.com/profile.php?id=61584284193614&mibextid=wwXIfr&rdid=uId0Bk59zqk4KY3Q&share_url=https%3A%2F%2Fwww.facebook.com%2Fshare%2F1CoLbhUg9C%2F%3Fmibextid%3DwwXIfr#"
@@ -305,29 +652,35 @@
                         placeholder="Let us know if you have any special requests or requirements..."></textarea>
                 </div>
 
-                <div class="payment-options">
-                    <h3 class="payment-title">Choose Your Payment Method</h3>
-                    <div class="payment-methods">
-                        <div class="payment-method" data-payment="gcash">
-                            <div class="payment-icon">
-                                <img src="assets/wesscash.jpg" alt="">
+                <!-- Payment Section - VISIBLE BY DEFAULT -->
+                <div class="payment-section" id="paymentSection">
+                    <div class="payment-options">
+                        <h3 class="payment-title">Choose Your Payment Method *</h3>
+                        <p class="payment-subtitle" style="color: #666; margin-bottom: 1rem; font-size: 0.9rem;">
+                            Please select your preferred payment method to complete your reservation
+                        </p>
+                        <div class="payment-methods">
+                            <div class="payment-method" data-payment="gcash">
+                                <div class="payment-icon">
+                                    <img src="assets/wesscash.jpg" alt="GCash">
+                                </div>
+                                <div class="payment-name">GCash</div>
+                                <div class="payment-description">Pay with your GCash wallet</div>
                             </div>
-                            <div class="payment-name">GCash</div>
-                            <div class="payment-description">Pay with your GCash wallet</div>
-                        </div>
-                        <div class="payment-method" data-payment="maya">
-                            <div class="payment-icon">
-                                <img src="assets/last.png" class="rounded-lg" alt="">
+                            <div class="payment-method" data-payment="maya">
+                                <div class="payment-icon">
+                                    <img src="assets/last.png" class="rounded-lg" alt="Maya">
+                                </div>
+                                <div class="payment-name">Maya</div>
+                                <div class="payment-description">Pay with Maya wallet or card</div>
                             </div>
-                            <div class="payment-name">Maya</div>
-                            <div class="payment-description">Pay with Maya wallet or card</div>
-                        </div>
-                        <div class="payment-method" data-payment="credit">
-                            <div class="payment-icon">
-                                <i class="fas fa-credit-card"></i>
+                            <div class="payment-method" data-payment="credit">
+                                <div class="payment-icon">
+                                    <i class="fas fa-credit-card"></i>
+                                </div>
+                                <div class="payment-name">Credit Card</div>
+                                <div class="payment-description">Visa, Mastercard, Amex</div>
                             </div>
-                            <div class="payment-name">Credit Card</div>
-                            <div class="payment-description">Visa, Mastercard, Amex</div>
                         </div>
                     </div>
                 </div>
@@ -379,6 +732,80 @@
         </div>
     </footer>
 
+    <!-- COMPACT Confirmation Modal -->
+    <div class="confirmation-modal" id="confirmationModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-check-circle"></i> Booking Confirmed!</h2>
+                <p>Your tropical getaway is officially reserved</p>
+            </div>
+
+            <div class="modal-body">
+                <div class="guest-info">
+                    <div class="guest-avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div class="guest-details">
+                        <h3 id="guestName">Guest Name</h3>
+                        <p>We're excited to have you as our guest!</p>
+                    </div>
+                </div>
+
+                <div class="booking-details">
+                    <h3><i class="fas fa-calendar-alt"></i> Booking Details</h3>
+
+                    <div class="detail-row">
+                        <span class="detail-label">Room Type:</span>
+                        <span class="detail-value" id="roomType">Room Type</span>
+                    </div>
+
+                    <div class="detail-row">
+                        <span class="detail-label">Check-in Date:</span>
+                        <span class="detail-value" id="checkinDate">Check-in Date</span>
+                    </div>
+
+                    <div class="detail-row">
+                        <span class="detail-label">Check-out Date:</span>
+                        <span class="detail-value" id="checkoutDate">Check-out Date</span>
+                    </div>
+
+                    <div class="detail-row">
+                        <span class="detail-label">Duration:</span>
+                        <span class="detail-value" id="duration">Duration</span>
+                    </div>
+                </div>
+
+                <div class="payment-info">
+                    <div class="payment-icon">
+                        <i class="fas fa-credit-card"></i>
+                    </div>
+                    <div class="payment-details">
+                        <h4 id="paymentMethod">Payment Method</h4>
+                        <p>Payment method selected</p>
+                    </div>
+                </div>
+
+                <div class="confirmation-message">
+                    <p><i class="fas fa-envelope"></i> A confirmation email has been sent to your inbox.</p>
+                    <p><i class="fas fa-clock"></i> Our team will contact you within 24 hours to finalize your booking
+                        details.</p>
+                    <p><i class="fas fa-concierge-bell"></i> We can't wait to welcome you to Paradise Bay Resort!</p>
+                </div>
+
+                <div class="modal-actions">
+                    <button class="modal-btn btn-secondary" id="closeModalBtn">
+                        <i class="fas fa-times"></i> Close
+                    </button>
+                </div>
+
+                <div class="resort-logo">
+                    <i class="fas fa-umbrella-beach"></i>
+                    Paradise Bay Resort
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
         // Smooth scrolling
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -410,11 +837,13 @@
             method.addEventListener('click', function () {
                 // Remove active class from all methods
                 document.querySelectorAll('.payment-method').forEach(m => {
-                    m.style.border = '2px solid transparent';
+                    m.classList.remove('active');
+                    m.style.border = '2px solid #e2e8f0';
                     m.style.backgroundColor = 'white';
                 });
 
                 // Add active class to selected method
+                this.classList.add('active');
                 this.style.border = '2px solid #0077be';
                 this.style.backgroundColor = '#f0f8ff';
 
@@ -437,32 +866,35 @@
                 return;
             }
 
-            // Payment method names for display
-            const paymentNames = {
-                'gcash': 'GCash',
-                'maya': 'Maya',
-                'credit': 'Credit Card'
-            };
+            // Show confirmation modal instead of alert
+            showConfirmationModal(name, room, checkin, checkout, selectedPaymentMethod);
 
-            alert(`Thank you, ${name}! 🌴\n\nYour reservation request for ${room} has been received.\n\nCheck-in: ${checkin}\nCheck-out: ${checkout}\nPayment Method: ${paymentNames[selectedPaymentMethod]}\n\nOur team will contact you within 24 hours to confirm your booking. We can't wait to welcome you to Paradise Bay Resort!`);
-
+            // Reset form
             this.reset();
 
             // Reset payment selection
             document.querySelectorAll('.payment-method').forEach(m => {
-                m.style.border = '2px solid transparent';
+                m.classList.remove('active');
+                m.style.border = '2px solid #e2e8f0';
                 m.style.backgroundColor = 'white';
             });
             selectedPaymentMethod = null;
         });
 
-        // Book room buttons
+        // Book room buttons - Auto-select room type when clicked
         document.querySelectorAll('.book-room-btn').forEach(button => {
             button.addEventListener('click', function () {
+                // Get the room type from data attribute
+                const roomType = this.getAttribute('data-room');
+
+                // Scroll to contact form
                 document.querySelector('#contact').scrollIntoView({
                     behavior: 'smooth',
                     block: 'start'
                 });
+
+                // Set the room type in the form
+                document.getElementById('room').value = roomType;
             });
         });
 
@@ -476,6 +908,55 @@
             checkinDate.setDate(checkinDate.getDate() + 1);
             const minCheckout = checkinDate.toISOString().split('T')[0];
             document.getElementById('checkout').setAttribute('min', minCheckout);
+        });
+
+        // Confirmation Modal Functions
+        function showConfirmationModal(name, room, checkin, checkout, paymentMethod) {
+            // Update modal content
+            document.getElementById('guestName').textContent = name;
+            document.getElementById('roomType').textContent = room.split(' - ')[0];
+            document.getElementById('checkinDate').textContent = formatDate(checkin);
+            document.getElementById('checkoutDate').textContent = formatDate(checkout);
+
+            const duration = calculateDuration(checkin, checkout);
+            document.getElementById('duration').textContent = `${duration} night${duration > 1 ? 's' : ''}`;
+
+            // Payment method names for display
+            const paymentNames = {
+                'gcash': 'GCash',
+                'maya': 'Maya',
+                'credit': 'Credit Card'
+            };
+
+            document.getElementById('paymentMethod').textContent = paymentNames[paymentMethod];
+
+            // Show the modal
+            document.getElementById('confirmationModal').style.display = 'flex';
+        }
+
+        // Helper functions
+        function formatDate(dateString) {
+            const options = { year: 'numeric', month: 'long', day: 'numeric' };
+            return new Date(dateString).toLocaleDateString('en-US', options);
+        }
+
+        function calculateDuration(checkin, checkout) {
+            const oneDay = 24 * 60 * 60 * 1000;
+            const firstDate = new Date(checkin);
+            const secondDate = new Date(checkout);
+            const diffDays = Math.round(Math.abs((firstDate - secondDate) / oneDay));
+            return diffDays;
+        }
+
+        document.getElementById('closeModalBtn').addEventListener('click', function () {
+            document.getElementById('confirmationModal').style.display = 'none';
+        });
+
+        // Close modal when clicking outside
+        document.getElementById('confirmationModal').addEventListener('click', function (e) {
+            if (e.target === this) {
+                this.style.display = 'none';
+            }
         });
     </script>
 </body>
