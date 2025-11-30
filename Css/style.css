@@ -720,10 +720,15 @@ body {
 
 /* Responsive */
 @media (max-width: 768px) {
+    .header {
+        margin: auto 0px;
+    }
+
     .header-content {
         flex-direction: column;
         gap: 1rem;
         text-align: center;
+        margin: auto 0px;
     }
 
     .logo-section {
@@ -737,6 +742,10 @@ body {
     .logo img {
         width: 50px;
         height: 50px;
+    }
+
+    .section {
+        margin: auto 0px;
     }
 
     .tagline {
@@ -772,5 +781,35 @@ body {
 
     .map-container {
         height: 300px;
+    }
+
+    .hero {
+        height: 100vh;
+        background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.4)),
+            url('https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=1920') center/cover;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: auto 0px;
+        text-align: center;
+        margin-top: 25px;
+        min-width: 500px;
+        color: white;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .hero-content {
+        content: '';
+        position: absolute;
+        top: 0;
+        margin: auto 0px;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        margin-top: 170px;
+        margin-bottom: 20px;
+        padding: 5px;
+
     }
 }
