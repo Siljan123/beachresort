@@ -6,815 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Paradise Bay Resort - Your Tropical Escape Awaits</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="Css/style.css">
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            color: #333;
-            line-height: 1.6;
-            overflow-x: hidden;
-            padding-top: 80px;
-        }
-
-        /* Header */
-        .header {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
-            z-index: 1000;
-            transition: all 0.3s ease;
-        }
-
-        .header.scrolled {
-            background: rgba(255, 255, 255, 0.98);
-            padding: 0.5rem 0;
-        }
-
-        .header-content {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 1.2rem 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .logo {
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: #0077be;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .logo i {
-            color: #00b4d8;
-        }
-
-        .nav {
-            display: flex;
-            gap: 2.5rem;
-            align-items: center;
-        }
-
-        .nav a {
-            text-decoration: none;
-            color: #333;
-            font-weight: 500;
-            transition: color 0.3s;
-            position: relative;
-        }
-
-        .nav a:hover {
-            color: #0077be;
-        }
-
-        .nav a::after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: #0077be;
-            transition: width 0.3s;
-        }
-
-        .nav a:hover::after {
-            width: 100%;
-        }
-
-        .book-now-btn {
-            background: linear-gradient(135deg, #0077be, #00b4d8);
-            color: white !important;
-            padding: 0.8rem 1.8rem;
-            border-radius: 50px;
-            font-weight: 600;
-            box-shadow: 0 4px 15px rgba(0, 119, 190, 0.3);
-        }
-
-        .book-now-btn::after {
-            display: none;
-        }
-
-        .book-now-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(0, 119, 190, 0.4);
-        }
-
-        /* Mobile Navigation */
-        .menu-toggle {
-            display: none;
-            flex-direction: column;
-            cursor: pointer;
-            gap: 5px;
-            z-index: 1001;
-        }
-
-        .menu-toggle span {
-            width: 25px;
-            height: 3px;
-            background-color: #1a2a6c;
-            transition: all 0.3s ease;
-            border-radius: 3px;
-        }
-
-        .menu-toggle.active span:nth-child(1) {
-            transform: rotate(45deg) translate(8px, 8px);
-        }
-
-        .menu-toggle.active span:nth-child(2) {
-            opacity: 0;
-        }
-
-        .menu-toggle.active span:nth-child(3) {
-            transform: rotate(-45deg) translate(7px, -7px);
-        }
-
-        /* Mobile Navigation Overlay */
-        .nav-overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100vh;
-            background-color: rgba(0, 0, 0, 0.5);
-            z-index: 999;
-        }
-
-        .nav-overlay.active {
-            display: block;
-        }
-
-        /* Mobile Responsive Styles */
-        @media (max-width: 768px) {
-            .header-content {
-                padding: 1rem;
-            }
-
-            .logo {
-                font-size: 1.2rem;
-            }
-
-            .menu-toggle {
-                display: flex;
-            }
-
-            .nav {
-                position: fixed;
-                top: 0;
-                right: -100%;
-                width: 280px;
-                height: 100vh;
-                background-color: white;
-                flex-direction: column;
-                gap: 0;
-                padding: 80px 0 20px 0;
-                box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
-                transition: right 0.3s ease;
-                align-items: flex-start;
-                z-index: 1000;
-                overflow-y: auto;
-            }
-
-            .nav.active {
-                right: 0;
-            }
-
-            .nav a {
-                width: 100%;
-                padding: 1rem 2rem;
-                border-bottom: 1px solid #f0f0f0;
-                color: #333;
-                text-decoration: none;
-                font-weight: 600;
-                transition: background-color 0.3s;
-            }
-
-            .nav a:hover {
-                background-color: #f8f9fa;
-                color: #0077be;
-            }
-
-            .book-now-btn {
-                margin: 1rem 2rem;
-                width: calc(100% - 4rem);
-                text-align: center;
-                display: block;
-                background-color: #0077be;
-                color: white !important;
-                padding: 0.75rem 1.5rem;
-                border-radius: 5px;
-            }
-
-            .book-now-btn:hover {
-                background-color: #005a8c;
-            }
-        }
-
-        /* Hero Section */
-        .hero {
-            height: 100vh;
-            background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.4)),
-                url('https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=1920') center/cover;
-            display: flex;
-            align-items: center;
-            width: 100%;
-            justify-content: center;
-            text-align: center;
-            color: white;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .hero::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(45deg, rgba(0, 119, 190, 0.2), rgba(0, 180, 216, 0.2));
-            animation: gradientShift 10s ease infinite;
-        }
-
-        @keyframes gradientShift {
-
-            0%,
-            100% {
-                opacity: 0.3;
-            }
-
-            50% {
-                opacity: 0.5;
-            }
-        }
-
-        .hero-content {
-            position: relative;
-            z-index: 1;
-            max-width: 900px;
-            padding: 2rem;
-            animation: fadeInUp 1s ease;
-        }
-
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .hero h1 {
-            font-size: 4rem;
-            margin-bottom: 1rem;
-            font-weight: 800;
-            letter-spacing: 2px;
-            text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
-        }
-
-        .hero p {
-            font-size: 1.4rem;
-            margin-bottom: 2.5rem;
-            opacity: 0.95;
-            line-height: 1.8;
-        }
-
-        .cta-buttons {
-            display: flex;
-            gap: 1.5rem;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-
-        .cta-button {
-            padding: 1.2rem 3rem;
-            font-size: 1.1rem;
-            text-decoration: none;
-            border-radius: 50px;
-            font-weight: 600;
-            transition: all 0.3s;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .cta-primary {
-            background: white;
-            color: #0077be;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
-        }
-
-        .cta-primary:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.3);
-        }
-
-        .cta-secondary {
-            background: rgba(255, 255, 255, 0.2);
-            color: white;
-            border: 2px solid white;
-            backdrop-filter: blur(10px);
-        }
-
-        .cta-secondary:hover {
-            background: rgba(255, 255, 255, 0.3);
-            transform: translateY(-3px);
-        }
-
-        /* Section Styles */
-        .section {
-            padding: 6rem 1rem;
-            max-width: 2400px;
-            margin: 0 auto;
-        }
-
-        .section-title {
-            font-size: 2.8rem;
-            text-align: center;
-            margin-bottom: 1rem;
-            color: #0077be;
-            font-weight: 700;
-        }
-
-        .section-subtitle {
-            text-align: center;
-            font-size: 1.2rem;
-            color: #666;
-            margin-bottom: 4rem;
-            max-width: 700px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        /* Accommodations */
-        .rooms-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 2.5rem;
-            margin-top: 3rem;
-        }
-
-        .room-card {
-            background: white;
-            border-radius: 20px;
-            overflow: hidden;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s;
-            cursor: pointer;
-        }
-
-        .room-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
-        }
-
-        .room-image {
-            width: 100%;
-            height: 280px;
-            object-fit: cover;
-            transition: transform 0.5s;
-        }
-
-        .room-card:hover .room-image {
-            transform: scale(1.1);
-        }
-
-        .room-image-container {
-            overflow: hidden;
-            position: relative;
-        }
-
-        .room-badge {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background: linear-gradient(135deg, #ff6b6b, #ee5a6f);
-            color: white;
-            padding: 0.5rem 1rem;
-            border-radius: 50px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            box-shadow: 0 4px 15px rgba(238, 90, 111, 0.4);
-        }
-
-        .room-info {
-            padding: 2rem;
-        }
-
-        .room-name {
-            font-size: 1.6rem;
-            font-weight: 700;
-            margin-bottom: 0.8rem;
-            color: #333;
-        }
-
-        .room-description {
-            color: #666;
-            margin-bottom: 1.5rem;
-            line-height: 1.6;
-        }
-
-        .room-features {
-            display: flex;
-            gap: 1rem;
-            flex-wrap: wrap;
-            margin-bottom: 1.5rem;
-        }
-
-        .feature-tag {
-            background: #f0f8ff;
-            color: #0077be;
-            padding: 0.4rem 1rem;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            display: flex;
-            align-items: center;
-            gap: 0.3rem;
-        }
-
-        .room-price {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding-top: 1.5rem;
-            border-top: 1px solid #eee;
-        }
-
-        .price {
-            font-size: 2rem;
-            font-weight: 700;
-            color: #0077be;
-        }
-
-        .price-label {
-            font-size: 0.9rem;
-            color: #999;
-        }
-
-        .book-room-btn {
-            background: linear-gradient(135deg, #0077be, #00b4d8);
-            color: white;
-            padding: 0.8rem 1.8rem;
-            border: none;
-            border-radius: 50px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .book-room-btn:hover {
-            transform: scale(1.05);
-            box-shadow: 0 5px 20px rgba(0, 119, 190, 0.4);
-        }
-
-        /* Amenities */
-        .amenities-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2.5rem;
-            margin-top: 3rem;
-        }
-
-        .amenity-card {
-            text-align: center;
-            padding: 2.5rem 2rem;
-            background: linear-gradient(135deg, #f8f9fa, #ffffff);
-            border-radius: 20px;
-            transition: all 0.3s;
-            border: 1px solid #e9ecef;
-        }
-
-        .amenity-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
-            background: white;
-        }
-
-        .amenity-icon {
-            font-size: 3.5rem;
-            margin-bottom: 1.5rem;
-            color: #00b4d8;
-        }
-
-        .amenity-name {
-            font-size: 1.3rem;
-            font-weight: 600;
-            color: #333;
-            margin-bottom: 0.8rem;
-        }
-
-        .amenity-description {
-            color: #666;
-            line-height: 1.6;
-        }
-
-        /* Gallery */
-        .gallery-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 1.5rem;
-            margin-top: 3rem;
-        }
-
-        .gallery-item {
-            height: 300px;
-            border-radius: 15px;
-            overflow: hidden;
-            position: relative;
-            cursor: pointer;
-        }
-
-        .gallery-item img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.5s;
-        }
-
-        .gallery-item:hover img {
-            transform: scale(1.15);
-        }
-
-        .gallery-overlay {
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(to top, rgba(0, 0, 0, 0.7), transparent);
-            opacity: 0;
-            transition: opacity 0.3s;
-            display: flex;
-            align-items: flex-end;
-            padding: 1.5rem;
-            color: white;
-        }
-
-        .gallery-item:hover .gallery-overlay {
-            opacity: 1;
-        }
-
-        /* Contact Form */
-        .contact-container {
-            max-width: 800px;
-            margin: 0 auto;
-            background: white;
-            padding: 3rem;
-            border-radius: 20px;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
-        }
-
-        .form-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1.5rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-weight: 600;
-            color: #333;
-        }
-
-        .form-group input,
-        .form-group textarea,
-        .form-group select {
-            width: 100%;
-            padding: 1rem;
-            border: 2px solid #e9ecef;
-            border-radius: 10px;
-            font-size: 1rem;
-            transition: all 0.3s;
-        }
-
-        .form-group input:focus,
-        .form-group textarea:focus,
-        .form-group select:focus {
-            outline: none;
-            border-color: #0077be;
-            box-shadow: 0 0 0 3px rgba(0, 119, 190, 0.1);
-        }
-
-        .form-group textarea {
-            resize: vertical;
-            min-height: 120px;
-        }
-
-        .submit-button {
-            width: 100%;
-            background: linear-gradient(135deg, #0077be, #00b4d8);
-            color: white;
-            padding: 1.2rem;
-            border: none;
-            border-radius: 50px;
-            font-size: 1.1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .submit-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(0, 119, 190, 0.4);
-        }
-
-        /* Payment Options */
-        .payment-section {
-            margin-top: 2rem;
-            padding-top: 2rem;
-            border-top: 2px solid #e2e8f0;
-        }
-
-        .payment-options {
-            margin-top: 2rem;
-            padding: 2rem;
-            background: #f8f9fa;
-            border-radius: 15px;
-            border: 1px solid #e9ecef;
-        }
-
-        .payment-title {
-            font-size: 1.5rem;
-            margin-bottom: 1.5rem;
-            color: #0077be;
-            text-align: center;
-        }
-
-        .payment-methods {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 1rem;
-            margin-top: 1rem;
-        }
-
-        .payment-method {
-            border: 2px solid #e2e8f0;
-            border-radius: 8px;
-            padding: 1rem;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            background: white;
-        }
-
-        .payment-method:hover {
-            border-color: #0077be;
-            transform: translateY(-2px);
-        }
-
-        .payment-method.active {
-            border-color: #0077be;
-            background: #f0f8ff;
-        }
-
-        .payment-icon img {
-            width: 35px;
-            height: 35px;
-            object-fit: contain;
-        }
-
-        .payment-name {
-            font-weight: 600;
-            margin: 0.5rem 0;
-            color: #333;
-            font-size: 14px;
-        }
-
-        .payment-description {
-            font-size: 0.8rem;
-            color: #666;
-        }
-
-        /* Location Section */
-        .location-container {
-            background: white;
-            padding: 3rem;
-            border-radius: 20px;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
-        }
-
-        .map-container {
-            height: 450px;
-            border-radius: 15px;
-            overflow: hidden;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
-        }
-
-        /* Social Section */
-        .social-section {
-            background: linear-gradient(135deg, #242d70 0%, #259b54 100%);
-            padding: 3rem 5%;
-            text-align: center;
-        }
-
-        .fb-button {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.8rem;
-            background: #1877f2;
-            color: white;
-            padding: 1rem 2.5rem;
-            text-decoration: none;
-            border-radius: 50px;
-            font-size: 1.2rem;
-            font-weight: bold;
-            transition: transform 0.3s, box-shadow 0.3s;
-            box-shadow: 0 4px 15px rgba(24, 119, 242, 0.4);
-        }
-
-        .fb-button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 20px rgba(24, 119, 242, 0.6);
-        }
-
-        /* Footer */
-        .footer {
-            background: linear-gradient(135deg, #1a1a2e, #16213e);
-            color: white;
-            padding: 4rem 2rem 2rem;
-            margin-top: 4rem;
-        }
-
-        .footer-content {
-            max-width: 1400px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 3rem;
-            margin-bottom: 2rem;
-        }
-
-        .footer-section h3 {
-            margin-bottom: 1.5rem;
-            font-size: 1.3rem;
-            color: #00b4d8;
-        }
-
-        .footer-section p,
-        .footer-section a {
-            color: rgba(255, 255, 255, 0.8);
-            text-decoration: none;
-            display: block;
-            margin-bottom: 0.8rem;
-            transition: color 0.3s;
-        }
-
-        .footer-section a:hover {
-            color: #00b4d8;
-        }
-
-        .social-links {
-            display: flex;
-            gap: 1rem;
-            margin-top: 1rem;
-        }
-
-        .social-links a {
-            width: 45px;
-            height: 45px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.2rem;
-            transition: all 0.3s;
-        }
-
-        .social-links a:hover {
-            background: #00b4d8;
-            transform: translateY(-3px);
-        }
-
-        .footer-bottom {
-            text-align: center;
-            padding-top: 2rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            color: rgba(255, 255, 255, 0.6);
-        }
-
-        /* Confirmation Modal Styles */
+        /* Confirmation Modal Styles - COMPACT VERSION */
         .confirmation-modal {
             display: none;
             position: fixed;
@@ -1053,6 +248,11 @@
             background: #e9ecef;
         }
 
+        .logo img {
+            width: 50x;
+            height: 50px;
+        }
+
         .resort-logo {
             display: flex;
             align-items: center;
@@ -1064,38 +264,76 @@
             font-size: 14px;
         }
 
-        /* Responsive */
-        @media (max-width: 768px) {
-            body {
-                padding-top: 70px;
-            }
+        /* Payment Section Styles */
+        .payment-section {
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 2px solid #e2e8f0;
+        }
 
-            .hero h1 {
-                font-size: 2.5rem;
-            }
+        .book-room-btn {
+            background: #0077be;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 14px;
+        }
 
-            .hero p {
-                font-size: 1.1rem;
-            }
+        .book-room-btn:hover {
+            background: #005a8c;
+            transform: translateY(-2px);
+        }
 
-            .section {
-                padding: 4rem 1.5rem;
-            }
+        .payment-methods {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
 
-            .form-row {
-                grid-template-columns: 1fr;
-            }
+        .payment-method {
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 1rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: white;
+        }
 
-            .rooms-grid,
-            .amenities-grid {
-                grid-template-columns: 1fr;
-            }
+        .payment-method:hover {
+            border-color: #0077be;
+            transform: translateY(-2px);
+        }
 
-            .payment-methods {
-                flex-direction: column;
-                align-items: center;
-            }
+        .payment-method.active {
+            border-color: #0077be;
+            background: #f0f8ff;
+        }
 
+        .payment-icon img {
+            width: 35px;
+            height: 35px;
+            object-fit: contain;
+        }
+
+        .payment-name {
+            font-weight: 600;
+            margin: 0.5rem 0;
+            color: #333;
+            font-size: 14px;
+        }
+
+        .payment-description {
+            font-size: 0.8rem;
+            color: #666;
+        }
+
+        @media (max-width: 480px) {
             .modal-content {
                 width: 95%;
                 max-height: 90vh;
@@ -1120,48 +358,19 @@
                 grid-template-columns: 1fr;
             }
         }
-
-        @media (max-width: 480px) {
-            .hero h1 {
-                font-size: 2rem;
-            }
-
-            .section-title {
-                font-size: 2rem;
-            }
-
-            .cta-buttons {
-                flex-direction: column;
-            }
-
-            .cta-button {
-                width: 100%;
-                justify-content: center;
-            }
-        }
     </style>
 </head>
 
 <body>
+    <!-- Your existing header, sections, and footer remain the same -->
     <!-- Header -->
     <header class="header">
         <div class="header-content">
             <div class="logo">
-                <!-- Placeholder for logo image -->
-                <div style="width: 50px; height: 50px; ">
-                    <img src="assets/logowo3.png" alt="">
-                </div>
+                <img src="assets/logowo3.png" alt="">
                 Paradise Bay Resort
             </div>
-
-            <!-- Hamburger Menu Button -->
-            <div class="menu-toggle" id="menuToggle">
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
-
-            <nav class="nav" id="nav">
+            <nav class="nav">
                 <a href="#home">Home</a>
                 <a href="#rooms">Accommodations</a>
                 <a href="#amenities">Amenities</a>
@@ -1172,13 +381,10 @@
         </div>
     </header>
 
-    <!-- Add overlay for mobile menu -->
-    <div class="nav-overlay" id="navOverlay"></div>
-
     <!-- Hero Section -->
     <section class="hero" id="home">
         <div class="hero-content">
-            <h1>Check-In to Serenity, Check-Out the Ordinary</h1>
+            <h1>Check-In to Serenity, Check-Out the Ordinary."</h1>
             <p>Escape to luxury on the pristine shores of Lianga. Experience world-class hospitality, breathtaking
                 ocean views, and unforgettable moments at Paradise Bay Resort.</p>
             <div class="cta-buttons">
@@ -1197,22 +403,19 @@
     <!-- Accommodations -->
     <section class="section" id="rooms">
         <h2 class="section-title">Luxury Accommodations</h2>
-        <p class="section-subtitle">Choose from our elegantly designed rooms and suites, each offering stunning
-            views and premium amenities for an unforgettable stay.</p>
+        <p class="section-subtitle">Choose from our elegantly designed rooms and suites, each offering stunning views
+            and premium amenities for an unforgettable stay.</p>
 
         <div class="rooms-grid">
             <!-- Deluxe Room -->
             <div class="room-card">
                 <div class="room-image-container">
-                    <div class="room-image"
-                        style="background: linear-gradient(135deg, #1a2a6c, #b21f1f); display: flex; align-items: center; justify-content: center; color: white;">
-                        <i class="fas fa-bed fa-3x"></i>
-                    </div>
+                    <img src="assets/deluxe.jpg" alt="Deluxe Room" class="room-image">
                 </div>
                 <div class="room-info">
                     <div class="room-name">Deluxe Ocean View</div>
-                    <div class="room-description">Spacious room with panoramic ocean views, king-size bed, and
-                        private balcony.</div>
+                    <div class="room-description">Spacious room with panoramic ocean views, king-size bed, and private
+                        balcony.</div>
                     <div class="room-features">
                         <span class="feature-tag"><i class="fas fa-bed"></i> King Bed</span>
                         <span class="feature-tag"><i class="fas fa-wifi"></i> Free WiFi</span>
@@ -1231,16 +434,13 @@
             <!-- Premium Suite -->
             <div class="room-card">
                 <div class="room-image-container">
-                    <div class="room-image"
-                        style="background: linear-gradient(135deg, #1a2a6c, #b21f1f); display: flex; align-items: center; justify-content: center; color: white;">
-                        <i class="fas fa-home fa-3x"></i>
-                    </div>
+                    <img src="assets/suite.jpg" alt="Premium Suite" class="room-image">
                     <span class="room-badge">POPULAR</span>
                 </div>
                 <div class="room-info">
                     <div class="room-name">Premium Beach Suite</div>
-                    <div class="room-description">Luxurious suite with separate living area, direct beach access,
-                        and premium amenities.</div>
+                    <div class="room-description">Luxurious suite with separate living area, direct beach access, and
+                        premium amenities.</div>
                     <div class="room-features">
                         <span class="feature-tag"><i class="fas fa-home"></i> Living Room</span>
                         <span class="feature-tag"><i class="fas fa-umbrella-beach"></i> Beach Access</span>
@@ -1259,10 +459,7 @@
             <!-- Family Villa -->
             <div class="room-card">
                 <div class="room-image-container">
-                    <div class="room-image"
-                        style="background: linear-gradient(135deg, #1a2a6c, #b21f1f); display: flex; align-items: center; justify-content: center; color: white;">
-                        <i class="fas fa-users fa-3x"></i>
-                    </div>
+                    <img src="assets/villa.jpg" alt="Family Villa" class="room-image">
                 </div>
                 <div class="room-info">
                     <div class="room-name">Family Beach Villa</div>
@@ -1288,15 +485,15 @@
     <!-- Amenities -->
     <section class="section" id="amenities" style="background: linear-gradient(to bottom, #f8f9fa, white);">
         <h2 class="section-title">World-Class Amenities</h2>
-        <p class="section-subtitle">Indulge in our premium facilities and services designed for your ultimate
-            comfort and relaxation.</p>
+        <p class="section-subtitle">Indulge in our premium facilities and services designed for your ultimate comfort
+            and relaxation.</p>
 
         <div class="amenities-grid">
             <div class="amenity-card">
                 <div class="amenity-icon"><i class="fas fa-swimming-pool"></i></div>
                 <div class="amenity-name">Infinity Pool</div>
-                <div class="amenity-description">Stunning infinity pool overlooking the ocean with poolside bar
-                    service</div>
+                <div class="amenity-description">Stunning infinity pool overlooking the ocean with poolside bar service
+                </div>
             </div>
 
             <div class="amenity-card">
@@ -1335,43 +532,31 @@
     <!-- Gallery -->
     <section class="section" id="gallery">
         <h2 class="section-title">Resort Gallery</h2>
-        <p class="section-subtitle">Discover the beauty and elegance of Paradise Bay Resort through our photo
-            gallery.</p>
+        <p class="section-subtitle">Discover the beauty and elegance of Paradise Bay Resort through our photo gallery.
+        </p>
 
         <div class="gallery-grid">
             <div class="gallery-item">
-                <div
-                    style="background: linear-gradient(135deg, #1a2a6c, #b21f1f); width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; color: white;">
-                    <i class="fas fa-umbrella-beach fa-3x"></i>
-                </div>
+                <img src="assets/beachfront.jpg" alt="Resort View">
                 <div class="gallery-overlay">
                     <span>Beachfront Paradise</span>
                 </div>
             </div>
             <div class="gallery-item">
-                <div
-                    style="background: linear-gradient(135deg, #1a2a6c, #b21f1f); width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; color: white;">
-                    <i class="fas fa-swimming-pool fa-3x"></i>
-                </div>
+                <img src="assets/infinitypool.jpg" alt="Pool Area">
                 <div class="gallery-overlay">
                     <span>Infinity Pool</span>
                 </div>
             </div>
 
             <div class="gallery-item">
-                <div
-                    style="background: linear-gradient(135deg, #1a2a6c, #b21f1f); width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; color: white;">
-                    <i class="fas fa-ship fa-3x"></i>
-                </div>
+                <img src="assets/wateractivities.jpg" alt="Activities">
                 <div class="gallery-overlay">
                     <span>Water Activities</span>
                 </div>
             </div>
             <div class="gallery-item">
-                <div
-                    style="background: linear-gradient(135deg, #1a2a6c, #b21f1f); width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; color: white;">
-                    <i class="fas fa-spa fa-3x"></i>
-                </div>
+                <img src="assets/relaxingspa.jpg" alt="Spa">
                 <div class="gallery-overlay">
                     <span>Relaxing Spa</span>
                 </div>
@@ -1411,8 +596,8 @@
     <!-- Contact/Booking Form -->
     <section class="section" id="contact" style="background: linear-gradient(to bottom, white, #f8f9fa);">
         <h2 class="section-title">Book Your Dream Getaway</h2>
-        <p class="section-subtitle">Fill out the form below and our team will get back to you within 24 hours to
-            confirm your reservation.</p>
+        <p class="section-subtitle">Fill out the form below and our team will get back to you within 24 hours to confirm
+            your reservation.</p>
 
         <div class="contact-container">
             <form id="bookingForm">
@@ -1482,21 +667,21 @@
                         <div class="payment-methods">
                             <div class="payment-method" data-payment="gcash">
                                 <div class="payment-icon">
-                                    <i class="fas fa-mobile-alt" style="font-size: 24px;"></i>
+                                    <img src="assets/wesscash.jpg" alt="GCash">
                                 </div>
                                 <div class="payment-name">GCash</div>
                                 <div class="payment-description">Pay with your GCash wallet</div>
                             </div>
                             <div class="payment-method" data-payment="maya">
                                 <div class="payment-icon">
-                                    <i class="fas fa-credit-card" style="font-size: 24px;"></i>
+                                    <img src="assets/last.png" class="rounded-lg" alt="Maya">
                                 </div>
                                 <div class="payment-name">Maya</div>
                                 <div class="payment-description">Pay with Maya wallet or card</div>
                             </div>
                             <div class="payment-method" data-payment="credit">
                                 <div class="payment-icon">
-                                    <i class="fas fa-credit-card" style="font-size: 24px;"></i>
+                                    <i class="fas fa-credit-card"></i>
                                 </div>
                                 <div class="payment-name">Credit Card</div>
                                 <div class="payment-description">Visa, Mastercard, Amex</div>
@@ -1606,10 +791,9 @@
                 </div>
 
                 <div class="confirmation-message">
-                    <p><i class="fas fa-clock"></i> Our team will contact you within 24 hours to finalize your
-                        booking details.</p>
-                    <p><i class="fas fa-concierge-bell"></i> We can't wait to welcome you to Paradise Bay Resort!
-                    </p>
+                    <p><i class="fas fa-clock"></i> Our team will contact you within 24 hours to finalize your booking
+                        details.</p>
+                    <p><i class="fas fa-concierge-bell"></i> We can't wait to welcome you to Paradise Bay Resort!</p>
                 </div>
 
                 <div class="modal-actions">
@@ -1627,38 +811,6 @@
     </div>
 
     <script>
-        // Mobile Menu Toggle
-        const menuToggle = document.getElementById('menuToggle');
-        const nav = document.getElementById('nav');
-        const navOverlay = document.getElementById('navOverlay');
-        const navLinks = document.querySelectorAll('.nav a');
-
-        // Toggle menu
-        menuToggle.addEventListener('click', function () {
-            menuToggle.classList.toggle('active');
-            nav.classList.toggle('active');
-            navOverlay.classList.toggle('active');
-            document.body.style.overflow = nav.classList.contains('active') ? 'hidden' : '';
-        });
-
-        // Close menu when clicking overlay
-        navOverlay.addEventListener('click', function () {
-            menuToggle.classList.remove('active');
-            nav.classList.remove('active');
-            navOverlay.classList.remove('active');
-            document.body.style.overflow = '';
-        });
-
-        // Close menu when clicking a nav link
-        navLinks.forEach(link => {
-            link.addEventListener('click', function () {
-                menuToggle.classList.remove('active');
-                nav.classList.remove('active');
-                navOverlay.classList.remove('active');
-                document.body.style.overflow = '';
-            });
-        });
-
         // Smooth scrolling
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
