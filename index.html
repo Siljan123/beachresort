@@ -9,6 +9,193 @@
     <link rel="stylesheet" href="Css/style.css">
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <style>
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            gap: 5px;
+            z-index: 1001;
+        }
+
+        .menu-toggle span {
+            width: 25px;
+            height: 3px;
+            background-color: #1a2a6c;
+            transition: all 0.3s ease;
+            border-radius: 3px;
+        }
+
+        .menu-toggle.active span:nth-child(1) {
+            transform: rotate(45deg) translate(8px, 8px);
+        }
+
+        .menu-toggle.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .menu-toggle.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(7px, -7px);
+        }
+
+        /* Mobile Navigation Overlay */
+        .nav-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+        }
+
+        .nav-overlay.active {
+            display: block;
+        }
+
+        .nav {
+            display: flex;
+            gap: 25px;
+        }
+
+        .nav a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+            padding: 5px 0;
+        }
+
+        .nav a:hover {
+            color: #1a2a6c;
+        }
+
+        .nav a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #1a2a6c;
+            transition: width 0.3s ease;
+        }
+
+        .nav a:hover::after {
+            width: 100%;
+        }
+
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .header.scrolled {
+            background: rgba(255, 255, 255, 0.98);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 5%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* Mobile Responsive Styles */
+        @media (max-width: 768px) {
+            .header-content {
+                padding: 1rem;
+            }
+
+            .logo {
+                font-size: 1.2rem;
+            }
+
+            .logo img {
+                height: 30px;
+            }
+
+            .menu-toggle {
+                display: flex;
+            }
+
+            .nav {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 280px;
+                height: 100vh;
+                background-color: white;
+                flex-direction: column;
+                gap: 0;
+                padding: 80px 0 20px 0;
+                box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
+                transition: right 0.3s ease;
+                align-items: flex-start;
+                z-index: 1000;
+                overflow-y: auto;
+            }
+
+            .nav.active {
+                right: 0;
+            }
+
+            .nav a {
+                width: 100%;
+                padding: 1rem 2rem;
+                border-bottom: 1px solid #f0f0f0;
+                color: #333;
+                text-decoration: none;
+                font-weight: 600;
+                transition: background-color 0.3s;
+            }
+
+            .nav a:hover {
+                background-color: #f8f9fa;
+                color: #0077be;
+            }
+
+            .book-now-btn {
+                margin: 1rem 2rem;
+                width: calc(100% - 4rem);
+                text-align: center;
+                display: block;
+                background-color: #0077be;
+                color: white !important;
+                padding: 0.75rem 1.5rem;
+                border-radius: 5px;
+            }
+
+            .book-now-btn:hover {
+                background-color: #005a8c;
+            }
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: #1a2a6c;
+            text-decoration: none;
+        }
+
+        .logo img {
+            height: 40px;
+            margin-right: 10px;
+            border-radius: 5px;
+        }
+
         /* Confirmation Modal Styles - COMPACT VERSION */
         .confirmation-modal {
             display: none;
@@ -357,15 +544,25 @@
 </head>
 
 <body>
-    <!-- Your existing header, sections, and footer remain the same -->
-    <!-- Header -->
+
     <header class="header">
         <div class="header-content">
             <div class="logo">
-                <i class="fas fa-umbrella-beach"></i>
+                <!-- Placeholder for logo image -->
+                <div>
+                    <img src="assets/logowo3.png" alt="">
+                </div>
                 Paradise Bay Resort
             </div>
-            <nav class="nav">
+
+            <!-- Hamburger Menu Button -->
+            <div class="menu-toggle" id="menuToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+
+            <nav class="nav" id="nav">
                 <a href="#home">Home</a>
                 <a href="#rooms">Accommodations</a>
                 <a href="#amenities">Amenities</a>
@@ -375,6 +572,62 @@
             </nav>
         </div>
     </header>
+
+    <!-- Add overlay for mobile menu -->
+    <div class="nav-overlay" id="navOverlay"></div>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <h1>Check-In to Serenity, Check-Out the Ordinary</h1>
+            <p>Escape to luxury on the pristine shores of Lianga. Experience world-class hospitality, breathtaking
+                ocean views, and unforgettable moments at Paradise Bay Resort.</p>
+            <div class="cta-buttons">
+                <a href="#contact" class="cta-button cta-primary">
+                    <i class="fas fa-calendar-check"></i>
+                    Reserve Your Stay
+                </a>
+                <a href="#rooms" class="cta-button cta-secondary">
+                    <i class="fas fa-compass"></i>
+                    Explore Resort
+                </a>
+            </div>
+        </div>
+    </section>
+    <!-- Add this JavaScript at the end of your existing <script> section -->
+    <script>
+        // Mobile Menu Toggle
+        const menuToggle = document.getElementById('menuToggle');
+        const nav = document.getElementById('nav');
+        const navOverlay = document.getElementById('navOverlay');
+        const navLinks = document.querySelectorAll('.nav a');
+
+        // Toggle menu
+        menuToggle.addEventListener('click', function () {
+            menuToggle.classList.toggle('active');
+            nav.classList.toggle('active');
+            navOverlay.classList.toggle('active');
+            document.body.style.overflow = nav.classList.contains('active') ? 'hidden' : '';
+        });
+
+        // Close menu when clicking overlay
+        navOverlay.addEventListener('click', function () {
+            menuToggle.classList.remove('active');
+            nav.classList.remove('active');
+            navOverlay.classList.remove('active');
+            document.body.style.overflow = '';
+        });
+
+        // Close menu when clicking a nav link
+        navLinks.forEach(link => {
+            link.addEventListener('click', function () {
+                menuToggle.classList.remove('active');
+                nav.classList.remove('active');
+                navOverlay.classList.remove('active');
+                document.body.style.overflow = '';
+            });
+        });
+    </script>
 
     <!-- Hero Section -->
     <section class="hero" id="home">
@@ -398,7 +651,8 @@
     <!-- Accommodations -->
     <section class="section" id="rooms">
         <h2 class="section-title">Luxury Accommodations</h2>
-        <p class="section-subtitle">Choose from our elegantly designed rooms and suites, each offering stunning views
+        <p class="section-subtitle">Choose from our elegantly designed rooms and suites, each offering stunning
+            views
             and premium amenities for an unforgettable stay.</p>
 
         <div class="rooms-grid">
@@ -409,7 +663,8 @@
                 </div>
                 <div class="room-info">
                     <div class="room-name">Deluxe Ocean View</div>
-                    <div class="room-description">Spacious room with panoramic ocean views, king-size bed, and private
+                    <div class="room-description">Spacious room with panoramic ocean views, king-size bed, and
+                        private
                         balcony.</div>
                     <div class="room-features">
                         <span class="feature-tag"><i class="fas fa-bed"></i> King Bed</span>
@@ -434,7 +689,8 @@
                 </div>
                 <div class="room-info">
                     <div class="room-name">Premium Beach Suite</div>
-                    <div class="room-description">Luxurious suite with separate living area, direct beach access, and
+                    <div class="room-description">Luxurious suite with separate living area, direct beach access,
+                        and
                         premium amenities.</div>
                     <div class="room-features">
                         <span class="feature-tag"><i class="fas fa-home"></i> Living Room</span>
@@ -480,14 +736,16 @@
     <!-- Amenities -->
     <section class="section" id="amenities" style="background: linear-gradient(to bottom, #f8f9fa, white);">
         <h2 class="section-title">World-Class Amenities</h2>
-        <p class="section-subtitle">Indulge in our premium facilities and services designed for your ultimate comfort
+        <p class="section-subtitle">Indulge in our premium facilities and services designed for your ultimate
+            comfort
             and relaxation.</p>
 
         <div class="amenities-grid">
             <div class="amenity-card">
                 <div class="amenity-icon"><i class="fas fa-swimming-pool"></i></div>
                 <div class="amenity-name">Infinity Pool</div>
-                <div class="amenity-description">Stunning infinity pool overlooking the ocean with poolside bar service
+                <div class="amenity-description">Stunning infinity pool overlooking the ocean with poolside bar
+                    service
                 </div>
             </div>
 
@@ -527,7 +785,8 @@
     <!-- Gallery -->
     <section class="section" id="gallery">
         <h2 class="section-title">Resort Gallery</h2>
-        <p class="section-subtitle">Discover the beauty and elegance of Paradise Bay Resort through our photo gallery.
+        <p class="section-subtitle">Discover the beauty and elegance of Paradise Bay Resort through our photo
+            gallery.
         </p>
 
         <div class="gallery-grid">
@@ -591,7 +850,8 @@
     <!-- Contact/Booking Form -->
     <section class="section" id="contact" style="background: linear-gradient(to bottom, white, #f8f9fa);">
         <h2 class="section-title">Book Your Dream Getaway</h2>
-        <p class="section-subtitle">Fill out the form below and our team will get back to you within 24 hours to confirm
+        <p class="section-subtitle">Fill out the form below and our team will get back to you within 24 hours to
+            confirm
             your reservation.</p>
 
         <div class="contact-container">
@@ -786,9 +1046,11 @@
                 </div>
 
                 <div class="confirmation-message">
-                    <p><i class="fas fa-clock"></i> Our team will contact you within 24 hours to finalize your booking
+                    <p><i class="fas fa-clock"></i> Our team will contact you within 24 hours to finalize your
+                        booking
                         details.</p>
-                    <p><i class="fas fa-concierge-bell"></i> We can't wait to welcome you to Paradise Bay Resort!</p>
+                    <p><i class="fas fa-concierge-bell"></i> We can't wait to welcome you to Paradise Bay Resort!
+                    </p>
                 </div>
 
                 <div class="modal-actions">
